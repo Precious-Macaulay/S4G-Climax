@@ -1,7 +1,10 @@
 import React from "react";
 import { OnboardFlow } from "react-native-onboard";
+import auth from "../core/firebase";
 
 const Onboarding = ({ navigation }) => {
+
+  console.log("user", auth.currentUser);
   return (
     <OnboardFlow
       pages={[
@@ -17,10 +20,16 @@ const Onboarding = ({ navigation }) => {
             "Track your carbon footprint and see how you can reduce it.",
           imageUri: "https://imagetolink.com/ib/jroUcy0zjl.jpg",
         },
+        {
+          title: "Let Us Help You Reduce Your Carbon Footprint",
+          subtitle:
+            "Answer the questions and we will give you tips on how to reduce your carbon footprint.",
+          imageUri: "https://imagetolink.com/ib/jroUcy0zjl.jpg",
+        },
       ]}
       type={"fullscreen"}
       textAlign="center"
-      onDone={() => navigation.navigate("BaselineScreen")}
+      onDone={() => navigation.navigate("PaginationForm")}
     />
   );
 };
