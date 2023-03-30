@@ -15,7 +15,7 @@ To get started with this project, follow these steps:
 
 - [React Native](https://reactnative.dev/)
 - [Expo](https://expo.io/)
-- [Firebase](https://firebase.google.com/)
+- [Azure](https://azure.microsoft.com/en-us/)
 
 ## Authors
 
