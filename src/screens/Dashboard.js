@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Image, Animated } from "react-native";
-import {Button} from "react-native-paper";
+import { Button, shadow } from "react-native-paper";
 import auth from "../core/firebase";
 
 const Dashboard = () => {
@@ -24,23 +24,27 @@ const Dashboard = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Image
-          source={{ uri: "https://png.pngtree.com/element_our/20190603/ourlarge/pngtree-spring-green-trees-illustration-image_1459774.jpg" }}
+          source={{
+            uri: "https://png.pngtree.com/element_our/20190603/ourlarge/pngtree-spring-green-trees-illustration-image_1459774.jpg",
+          }}
           style={styles.avatar}
         />
         <View>
-          <Text style={styles.name}>HI, {auth.currentUser.displayName}</Text>
+          <Text style={styles.name}>
+            HI,
+            {/* {auth.currentUser.displayName} */}
+          </Text>
           <Text style={styles.greeting}>Good {timeOfDay}!</Text>
         </View>
       </View>
       <View style={styles.body}>
-        <Animated.View style={styles.circle}>
-          <Text style={styles.totalEmission}>{auth.currentUser.carbonFootprint}</Text>
-        </Animated.View>
-        <Button
-          title="Recalculate Emission"
-          buttonStyle={styles.button}
-          onPress={() => console.log("Recalculating emission...")}
-        />
+        <View style={styles.circle}>
+          <Text>Your CO2 Emission so far this month is</Text>
+          <Text>so far this month is</Text>
+          <Text style={styles.totalEmission}>
+            {/* {auth.currentUser.carbonFootprint} */}
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -64,6 +68,12 @@ const styles = StyleSheet.create({
   body: {
     flex: 2,
     justifyContent: "center",
+    backgroundColor: "#fff",
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    justifyContent: "center",
+    alignItems: "center",
   },
   avatar: {
     width: 60,
@@ -82,39 +92,18 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginBottom: 10,
   },
-  circleContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 20,
-  },
-  circleBackgroundWrapperStyle: {
-    position: "absolute",
-  },
-  circleBackgroundStyle: {
-    borderWidth: 5,
-    borderColor: "#e6e6e6",
-    borderRadius: 1000,
-    padding: 10,
-  },
   circle: {
-    width: 150,
-    height: 150,
-    borderRadius: 1000,
-    backgroundColor: "#f2f2f2",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  totalEmission: {
-    fontSize: 30,
-    fontWeight: "bold",
-  },
-  button: {
-    marginTop: 20,
-  },
-  listItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 10,
+    height: "90%",
+    width: "80%",
+    backgroundColor: "#003333",
+    borderRadius: 500,
+    shadowColor: "black",
+    justifyContent: 'center',
+    alignContent: 'center',
+    padding: 30,
+    textAlign: "center",
+    
+
   },
 });
 
