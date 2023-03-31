@@ -61,7 +61,7 @@ const Dashboard = () => {
           <Text style={styles.dashtext}>CO2 Emission</Text>
           <Text style={styles.dashtext}>so far is</Text>
           <Text style={styles.totalEmission}>
-            {auth.currentUser.carbonFootprint}
+            {carbonEmission} {carbonEmission === 1 ? "kg" : "kgs"}
           </Text>
         </View>
       </View>
