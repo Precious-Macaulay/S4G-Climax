@@ -58,7 +58,7 @@ const Dashboard = ({ navigation }) => {
   const [carbonEmission, setCarbonEmission] = useState(0);
   const [timeOfDay, setTimeOfDay] = useState("");
   const [user, setUser] = useState(null);
-  const [totalDistance, setTotalDistance] = useState(1);
+  const [totalDistance, setTotalDistance] = useState(0);
 
   const { db, auth } = firebas;
 
