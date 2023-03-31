@@ -19,11 +19,8 @@ To get started with this project, follow these steps:
 
 ## Screenshots
 
-![App Screenshot]()
-![App Screenshot]()
-![App Screenshot]()
-![App Screenshot]()
-![App Screenshot]()
+You can find the screenshots of the app in the screenshots folder
+[ScreenShot]: https://drive.google.com/file/d/1o98espxBXuxC40UFCZHhqpvO7ljg9uo9/view?usp=sharing
 
 ## Authors
 
