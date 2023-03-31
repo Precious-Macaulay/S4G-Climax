@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Image, Animated } from "react-native";
-import { Button, shadow } from "react-native-paper";
 import { auth, db } from "../core/firebase";
 import { doc, getDoc } from "firebase/firestore";
 
@@ -51,7 +50,7 @@ const Dashboard = () => {
         <View>
           <Text style={styles.name}>
             HI,
-            {/* {auth.currentUser.displayName} */}
+            {user ? user.displayName.toUpperCase() : "USER"}
           </Text>
           <Text style={styles.greeting}>Good {timeOfDay}!</Text>
         </View>
