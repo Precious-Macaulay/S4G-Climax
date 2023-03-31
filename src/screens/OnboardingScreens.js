@@ -1,9 +1,9 @@
 import React from "react";
 import { OnboardFlow } from "react-native-onboard";
-import {auth} from "../core/firebase";
+import firebas from "../core/firebase";
 
 const Onboarding = ({ navigation }) => {
-
+  const { auth } = firebas;
   console.log("user", auth.currentUser);
   return (
     <OnboardFlow
@@ -35,6 +35,3 @@ const Onboarding = ({ navigation }) => {
 };
 
 export default Onboarding;
-
-
-

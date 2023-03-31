@@ -10,12 +10,14 @@ import BackButton from "../components/BackButton";
 import { theme } from "../core/theme";
 import { emailValidator } from "../helpers/emailValidator";
 import { passwordValidator } from "../helpers/passwordValidator";
-import {auth} from "../core/firebase";
+import firebas from "../core/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
+
+  const { auth } = firebas;
 
   const onLoginPressed = async () => {
     const emailError = emailValidator(email.value);
@@ -26,21 +28,21 @@ export default function LoginScreen({ navigation }) {
       return;
     }
     await signInWithEmailAndPassword(auth, email.value, password.value)
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-          // ...
-          console.log("user", user);
-          navigation.reset({
-            index: 0,
-            routes: [{ name: "Dashboard" }],
-          });
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log("error", errorCode, errorMessage);
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        // ...
+        console.log("user", user);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Dashboard" }],
         });
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("error", errorCode, errorMessage);
+      });
   };
 
   return (

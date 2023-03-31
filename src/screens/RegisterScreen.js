@@ -16,7 +16,7 @@ import { theme } from "../core/theme";
 import { emailValidator } from "../helpers/emailValidator";
 import { passwordValidator } from "../helpers/passwordValidator";
 import { nameValidator } from "../helpers/nameValidator";
-import { auth, db } from "../core/firebase";
+import firebas from "../core/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
@@ -25,6 +25,7 @@ export default function RegisterScreen({ navigation }) {
   const [password, setPassword] = useState({ value: "", error: "" });
   const [name, setName] = useState({ value: "", error: "" });
 
+  const { db, auth } = firebas;
   const onSignUpPressed = async () => {
     console.log("click");
     console.log("email", email.value);
@@ -43,15 +44,27 @@ export default function RegisterScreen({ navigation }) {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log("user", user);
+        console.log("user Done", user);
+
+        setDoc(doc(db, "users", user.uid), {
+          name: name.value,
+          email: email.value,
+          uid: user.uid,
+        })
+          .then(() => {
+            console.log("Document successfully written!");
+          })
+          .catch((error) => {
+            console.error("Error writing document: ", error);
+          });
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log("error", errorCode, errorMessage);
+        console.log("error s", errorCode, errorMessage);
       });
 
-    await updateProfile(auth.currentUser, {
+    updateProfile(auth.currentUser, {
       displayName: name.value,
     })
       .then(() => {
@@ -64,18 +77,8 @@ export default function RegisterScreen({ navigation }) {
         // ...
         console.error("error", error);
       });
+
     // Add a new document in collection "users"
-    await setDoc(doc(db, "users", user.uid), {
-      name: name.value,
-      email: email.value,
-      uid: user.uid,
-    })
-      .then(() => {
-        console.log("Document successfully written!");
-      })
-      .catch((error) => {
-        console.error("Error writing document: ", error);
-      });
 
     // ...
     navigation.reset({

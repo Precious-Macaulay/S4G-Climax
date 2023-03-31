@@ -4,8 +4,7 @@ import { Button, TextInput } from "react-native-paper";
 import { Formik } from "formik";
 import { Picker } from "@react-native-picker/picker";
 // add submission to firebase
-import { auth, db } from "../core/firebase";
-import { updateProfile } from "firebase/auth";
+import firebas from "../core/firebase";
 import { doc, setDoc } from "firebase/firestore";
 
 const questions = [
@@ -130,6 +129,7 @@ const questions = [
 ];
 
 const PaginationForm = ({ navigation }) => {
+  const { auth, db } = firebas;
   const [currentPage, setCurrentPage] = useState(0);
 
   const handleNextPage = () => setCurrentPage(currentPage + 1);
@@ -174,7 +174,20 @@ const PaginationForm = ({ navigation }) => {
         // add to firestore
         const user = auth.currentUser;
         const docRef = doc(db, "users", user.uid);
-        setDoc(docRef, { baseData: data, prediction: result });
+
+        typeof result === "string" && (result = JSON.parse(result));
+
+        console.log("result", result);
+        
+        setDoc(docRef, {
+          baseData: data,
+          prediction: result[0],
+        }).then(
+          console.log("Document successfully written!"),
+        ).catch((error) => {
+          console.error("Error writing document: ", error);
+        });
+        console.log("about to navigate");
         navigation.navigate("Dashboard");
       })
       .catch((error) => console.log("error", error));

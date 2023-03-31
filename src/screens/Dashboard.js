@@ -1,12 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Image, Animated } from "react-native";
-import { auth, db } from "../core/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import firebas from "../core/firebase";
+import { collection, getDocs } from "firebase/firestore";
 
-const Dashboard = () => {
+const Dashboard = ({navigation}) => {
   const [carbonEmission, setCarbonEmission] = useState(0);
   const [timeOfDay, setTimeOfDay] = useState("");
   const [user, setUser] = useState(null);
+
+  const { db, auth } = firebas;
+
+  // retrieve user data from firestore
+  const getCarbonEmission = async () => {
+    const querySnapshot = await getDocs(collection(db, "users"));
+    querySnapshot.forEach((doc) => {
+      if (doc.id === auth.currentUser.uid) {
+        setCarbonEmission(doc.data().prediction);
+      }
+    });
+  };
+
+  // get users location and calculate the distance if 
+
+
 
   useEffect(() => {
     const date = new Date();
@@ -20,27 +36,23 @@ const Dashboard = () => {
       setTimeOfDay("evening");
     }
 
-    const user = auth.currentUser;
-
-    if (user) {
-      setUser(user);
-
-      const docRef = doc(db, "users", user.uid);
-      const docSnap = getDoc(docRef);
-
-      if (docSnap) {
-        setCarbonEmission(docSnap.data().prediction);
-      } else {
-        console.log("No such document!");
-      }
+    if (auth.currentUser) {
+      setUser(auth.currentUser);
+      getCarbonEmission();
+      console.log("carbonEmission", carbonEmission);
+      
     } else {
       console.log("No user");
+      navigation.navigate("Login");
     }
-  }, []);
+
+  }, [carbonEmission]);
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
+
+
         <Image
           source={{
             uri: "https://png.pngtree.com/element_our/20190603/ourlarge/pngtree-spring-green-trees-illustration-image_1459774.jpg",
@@ -57,7 +69,7 @@ const Dashboard = () => {
       </View>
       <View style={styles.body}>
         <View style={styles.circle}>
-          <Text style={styles.dashtext}>CO2 Emission</Text>
+          <Text style={styles.dashtext}>CO2</Text>
           <Text style={styles.dashtext}>so far is</Text>
           <Text style={styles.totalEmission}>
             {carbonEmission} {carbonEmission === 1 ? "kg" : "kgs"}
