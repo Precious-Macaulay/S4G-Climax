@@ -39,8 +39,8 @@ const Dashboard = () => {
       </View>
       <View style={styles.body}>
         <View style={styles.circle}>
-          <Text>Your CO2 Emission so far this month is</Text>
-          <Text>so far this month is</Text>
+          <Text style={styles.dashtext}>CO2 Emission</Text>
+          <Text style={styles.dashtext}>so far is</Text>
           <Text style={styles.totalEmission}>
             {/* {auth.currentUser.carbonFootprint} */}
           </Text>
@@ -101,10 +101,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     padding: 30,
-    textAlign: "center",
-    
-
   },
+  dashtext:{
+    color: "#fff",
+    fontSize: 20,
+    textAlign: "center"
+  }
 });
 
 export default Dashboard;
