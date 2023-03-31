@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Image, Animated } from "react-native";
 import { Button, shadow } from "react-native-paper";
-import auth from "../core/firebase";
+import { auth, db } from "../core/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const Dashboard = () => {
   const [carbonEmission, setCarbonEmission] = useState(0);
   const [timeOfDay, setTimeOfDay] = useState("");
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const date = new Date();
@@ -17,6 +19,23 @@ const Dashboard = () => {
       setTimeOfDay("afternoon");
     } else {
       setTimeOfDay("evening");
+    }
+
+    const user = auth.currentUser;
+
+    if (user) {
+      setUser(user);
+
+      const docRef = doc(db, "users", user.uid);
+      const docSnap = getDoc(docRef);
+
+      if (docSnap) {
+        setCarbonEmission(docSnap.data().prediction);
+      } else {
+        console.log("No such document!");
+      }
+    } else {
+      console.log("No user");
     }
   }, []);
 
@@ -42,7 +61,7 @@ const Dashboard = () => {
           <Text style={styles.dashtext}>CO2 Emission</Text>
           <Text style={styles.dashtext}>so far is</Text>
           <Text style={styles.totalEmission}>
-            {/* {auth.currentUser.carbonFootprint} */}
+            {auth.currentUser.carbonFootprint}
           </Text>
         </View>
       </View>
@@ -98,15 +117,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#003333",
     borderRadius: 500,
     shadowColor: "black",
-    justifyContent: 'center',
-    alignContent: 'center',
+    justifyContent: "center",
+    alignContent: "center",
     padding: 30,
   },
-  dashtext:{
+  dashtext: {
     color: "#fff",
     fontSize: 20,
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 });
 
 export default Dashboard;

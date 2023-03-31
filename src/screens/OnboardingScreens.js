@@ -1,6 +1,6 @@
 import React from "react";
 import { OnboardFlow } from "react-native-onboard";
-import auth from "../core/firebase";
+import {auth} from "../core/firebase";
 
 const Onboarding = ({ navigation }) => {
 

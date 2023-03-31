@@ -17,6 +17,14 @@ To get started with this project, follow these steps:
 - [Expo](https://expo.io/)
 - [Azure](https://azure.microsoft.com/en-us/)
 
+## Screenshots
+
+![App Screenshot]()
+![App Screenshot]()
+![App Screenshot]()
+![App Screenshot]()
+![App Screenshot]()
+
 ## Authors
 
 - [@s4g-climax]("Macaulay Precious")

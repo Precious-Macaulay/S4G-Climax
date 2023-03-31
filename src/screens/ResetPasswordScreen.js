@@ -6,8 +6,10 @@ import Header from '../components/Header'
 import TextInput from '../components/TextInput'
 import Button from '../components/Button'
 import { emailValidator } from '../helpers/emailValidator'
-import auth from '../core/firebase'
+import {auth} from '../core/firebase'
 import { sendPasswordResetEmail } from 'firebase/auth'
+
+
 
 export default function ResetPasswordScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })

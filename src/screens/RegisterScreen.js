@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../components/Background";
 import Logo from "../components/Logo";
@@ -11,7 +16,8 @@ import { theme } from "../core/theme";
 import { emailValidator } from "../helpers/emailValidator";
 import { passwordValidator } from "../helpers/passwordValidator";
 import { nameValidator } from "../helpers/nameValidator";
-import auth from "../core/firebase";
+import { auth, db } from "../core/firebase";
+import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 export default function RegisterScreen({ navigation }) {
@@ -46,8 +52,8 @@ export default function RegisterScreen({ navigation }) {
       });
 
     await updateProfile(auth.currentUser, {
-        displayName: name.value,
-      })
+      displayName: name.value,
+    })
       .then(() => {
         // Update successful
         // ...
@@ -58,6 +64,18 @@ export default function RegisterScreen({ navigation }) {
         // ...
         console.error("error", error);
       });
+    // Add a new document in collection "users"
+    await setDoc(doc(db, "users", user.uid), {
+      name: name.value,
+      email: email.value,
+      uid: user.uid,
+    })
+      .then(() => {
+        console.log("Document successfully written!");
+      })
+      .catch((error) => {
+        console.error("Error writing document: ", error);
+      });
 
     // ...
     navigation.reset({
@@ -65,7 +83,6 @@ export default function RegisterScreen({ navigation }) {
       routes: [{ name: "OnboardingScreen" }],
     });
   };
-
 
   return (
     <Background>

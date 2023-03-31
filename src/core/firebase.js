@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBI3JOiSWnyKuOoAlJJBVBwIQgdVenX25E",
@@ -16,4 +17,6 @@ const auth = getAuth(app);
 
 auth.app.name === "[DEFAULT]" ? console.log("Firebase is connected") : console.log("Firebase is not connected");
 
-export default auth;
+const db = getFirestore(app);
+
+export default {auth, db};

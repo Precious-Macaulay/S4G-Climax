@@ -4,8 +4,9 @@ import { Button, TextInput } from "react-native-paper";
 import { Formik } from "formik";
 import { Picker } from "@react-native-picker/picker";
 // add submission to firebase
-import auth from "../core/firebase";
-import { updateProfile } from 'firebase/auth';
+import { auth, db } from "../core/firebase";
+import { updateProfile } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 const questions = [
   {
@@ -128,7 +129,7 @@ const questions = [
   },
 ];
 
-const PaginationForm = ({navigation}) => {
+const PaginationForm = ({ navigation }) => {
   const [currentPage, setCurrentPage] = useState(0);
 
   const handleNextPage = () => setCurrentPage(currentPage + 1);
@@ -166,12 +167,14 @@ const PaginationForm = ({navigation}) => {
       redirect: "follow",
     };
 
-    fetch("https://carbon4cars.azurewebsites.net/predict", requestOptions)
+    await fetch("https://carbon4cars.azurewebsites.net/predict", requestOptions)
       .then((response) => response.text())
       .then((result) => {
         console.log("result", result);
-        // add to firebase
-        updateProfile(auth.currentUser, { carbonFootprint: result });
+        // add to firestore
+        const user = auth.currentUser;
+        const docRef = doc(db, "users", user.uid);
+        setDoc(docRef, { baseData: data, prediction: result });
         navigation.navigate("Dashboard");
       })
       .catch((error) => console.log("error", error));
